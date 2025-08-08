@@ -1,0 +1,13 @@
+name = "gyro-error-calculator"
+main = "src/worker.ts"
+compatibility_date = "2024-11-01"
+workers_dev = true
+
+[assets]
+directory = "out"
+binding = "ASSETS"
+
+# 部署到正式網域子路徑時，取消下面註解並填入你的網域：
+# routes = [
+#   { pattern = "your-domain.com/gyro-error-calculator*", zone_name = "your-domain.com" }
+# ]
