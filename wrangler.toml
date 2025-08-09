@@ -9,7 +9,7 @@ command = "npm ci && npm run build:cf"
 directory = "out"
 binding = "ASSETS"
 
-# 部署到正式網域子路徑時，取消下面註解並填入你的網域：
-# routes = [
-#   { pattern = "your-domain.com/gyro-error-calculator*", zone_name = "your-domain.com" }
-# ]
+# 配置自定義域名路由
+routes = [
+  { pattern = "6156150.xyz/gyro-error-calculator*", zone_name = "6156150.xyz" }
+]
