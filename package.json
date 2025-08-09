@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "export": "next export -o out",
-    "build:cf": "npm run build && npm run export",
+    "export": "echo 'Export is handled by next build with output: export'",
+    "build:cf": "npm run build",
     "start": "next start",
     "lint": "next lint",
     "cf:dev": "wrangler dev",
