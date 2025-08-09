@@ -239,7 +239,7 @@ export default function GyroCalculatorPage() {
                           />
                         </div>
                         <div className="flex-1">
-                          <Label className="text-xs text-gray-500">分 (')</Label>
+                          <Label className="text-xs text-gray-500">分</Label>
                           <Input
                             type="number"
                             placeholder="45"
@@ -266,7 +266,7 @@ export default function GyroCalculatorPage() {
                           />
                         </div>
                         <div className="flex-1">
-                          <Label className="text-xs text-gray-500">分 (')</Label>
+                          <Label className="text-xs text-gray-500">分</Label>
                           <Input
                             type="number"
                             placeholder="25"
