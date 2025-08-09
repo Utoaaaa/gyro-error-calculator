@@ -6,8 +6,12 @@ export interface Env {
   ASSETS: AssetFetcher;
 }
 
-export default {
-  async fetch(request: Request, env: Env, ctx: any): Promise<Response> {
+interface Context {
+  [key: string]: unknown;
+}
+
+const worker = {
+  async fetch(request: Request, env: Env, ctx: Context): Promise<Response> {
     const url = new URL(request.url);
 
     // 直接處理子路徑根目錄，回傳對應的 index.html
@@ -18,7 +22,7 @@ export default {
     }
 
     // 先嘗試以靜態資產回應
-    let res = await env.ASSETS.fetch(request, env, ctx);
+    const res = await env.ASSETS.fetch(request, env, ctx);
     if (res.status !== 404) return res;
 
     // 若為 HTML 請求且無副檔名（SPA fallback），回傳子路徑 index.html
@@ -33,3 +37,5 @@ export default {
     return res;
   },
 };
+
+export default worker;

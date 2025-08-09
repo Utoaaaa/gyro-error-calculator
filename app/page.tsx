@@ -37,11 +37,9 @@ export default function GyroCalculatorPage() {
   const [gyroError, setGyroError] = useState<string | null>(null);
   const [absoluteError, setAbsoluteError] = useState<number>(0);
   const [trueAzimuth, setTrueAzimuth] = useState<string | null>(null);
-  const [lha, setLha] = useState<string | null>(null);
   const [calculatedT, setCalculatedT] = useState<string | null>(null);
   const [altitude, setAltitude] = useState<string | null>(null);
   const [azimuth, setAzimuth] = useState<string | null>(null);
-  const [znAngle, setZnAngle] = useState<string | null>(null);
   const [ghaTotal, setGhaTotal] = useState<string | null>(null);
   const [decTotal, setDecTotal] = useState<string | null>(null);
 
@@ -81,11 +79,9 @@ export default function GyroCalculatorPage() {
       setGyroError(results.gyroError);
       setAbsoluteError(results.absoluteError);
       setTrueAzimuth(results.trueAzimuth);
-      setLha(results.calculatedT);
       setCalculatedT(results.calculatedT);
       setAltitude(results.altitude);
       setAzimuth(results.azimuth);
-      setZnAngle(results.znAngle);
       setGhaTotal(results.ghaTotal);
       setDecTotal(results.decTotal);
 
@@ -114,11 +110,9 @@ export default function GyroCalculatorPage() {
     setGyroError(null);
     setAbsoluteError(0);
     setTrueAzimuth(null);
-    setLha(null);
     setCalculatedT(null);
     setAltitude(null);
     setAzimuth(null);
-    setZnAngle(null);
     setGhaTotal(null);
     setDecTotal(null);
   };
