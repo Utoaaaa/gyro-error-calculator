@@ -83,10 +83,9 @@ export const calculateSunPosition = (lat: number, dec: number, t: number) => {
   }
   
   const cosAz = (Math.sin(decRad) - Math.sin(latRad) * cosX) / (Math.cos(latRad) * sinX);
-  let azimuthAngle = toDegrees(Math.acos(Math.max(-1, Math.min(1, cosAz))));
+  const azimuthAngle = toDegrees(Math.acos(Math.max(-1, Math.min(1, cosAz))));
   
   // 格式化方位角：根據緯度和時角確定表示方式
-  let azimuthFormatted: string;
   const isNorthernHemisphere = lat >= 0;
   const hemisphere = isNorthernHemisphere ? 'N' : 'S';
   
@@ -94,7 +93,7 @@ export const calculateSunPosition = (lat: number, dec: number, t: number) => {
   const isEast = t < 0; // 時角為負表示太陽在東方
   const direction = isEast ? 'E' : 'W';
   
-  azimuthFormatted = `${hemisphere} ${azimuthAngle.toFixed(1)}° ${direction}`;
+  const azimuthFormatted = `${hemisphere} ${azimuthAngle.toFixed(1)}° ${direction}`;
   
   // 計算 Zn 角度 (從北方順時針測量的絕對方位)
   let znAngle: number;
