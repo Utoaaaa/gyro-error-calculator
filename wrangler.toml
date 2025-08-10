@@ -10,6 +10,6 @@ directory = "out"
 binding = "ASSETS"
 
 # 配置自定義域名路由
-routes = [
-  { pattern = "6156150.xyz/gyro-error-calculator*", zone_name = "6156150.xyz" }
-]
+[[routes]]
+pattern = "6156150.xyz/gyro-error-calculator*"
+zone_name = "6156150.xyz"
