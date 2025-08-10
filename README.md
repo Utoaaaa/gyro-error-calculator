@@ -40,30 +40,119 @@
 
 ## 🚀 快速開始
 
-### 安裝依賴
+### 環境需求
+
+- Node.js 18+ 
+- pnpm (推薦) 或 npm
+- Cloudflare 帳號 (用於生產部署)
+
+### 本地開發
+
+#### 1. 克隆專案
 
 ```bash
+git clone https://github.com/Utoaaaa/gyro-error-calculator.git
+cd gyro-error-calculator
+```
+
+#### 2. 安裝依賴
+
+```bash
+# 推薦使用 pnpm
+pnpm install
+
+# 或使用 npm
 npm install
 ```
 
-### 啟動開發伺服器
+#### 3. 啟動開發伺服器
 
 ```bash
+pnpm dev
+# 或
 npm run dev
 ```
 
 開啟瀏覽器訪問 [http://localhost:3000](http://localhost:3000)
 
-### 建置專案
+### 生產環境部署
+
+#### 方式一：Cloudflare Workers 部署 (推薦)
+
+1. **安裝 Wrangler CLI**
+   ```bash
+   npm install -g wrangler
+   ```
+
+2. **登錄 Cloudflare 帳號**
+   ```bash
+   wrangler login
+   ```
+
+3. **構建並部署**
+   ```bash
+   # 安裝依賴並構建專案
+   pnpm install
+   
+   # 構建用於 Cloudflare Workers 的版本
+   pnpm run build:cf
+   
+   # 部署到 Cloudflare Workers
+   pnpm run deploy
+   ```
+
+4. **訪問部署的應用**
+   - 默認域名：`https://gyro-error-calculator.your-subdomain.workers.dev`
+   - 自定義域名：`https://6156150.xyz/gyro-error-calculator`
+
+#### 方式二：靜態網站部署
+
+1. **構建靜態文件**
+   ```bash
+   pnpm install
+   pnpm run build
+   ```
+
+2. **部署到靜態主機**
+   - 將 `out` 資料夾中的內容上傳到任何靜態主機服務
+   - 支援 Vercel、Netlify、GitHub Pages 等平台
+
+#### 方式三：本地生產環境
 
 ```bash
-npm run build
+# 構建專案
+pnpm run build
+
+# 啟動生產服務器
+pnpm start
 ```
 
-### 啟動生產環境
+### 開發指令說明
 
 ```bash
-npm start
+# 開發模式 (使用 Turbopack 加速)
+pnpm dev
+
+# 構建生產版本
+pnpm run build
+
+# 構建 Cloudflare Workers 版本
+pnpm run build:cf
+
+# 組織資產文件 (用於 Cloudflare)
+pnpm run organize-assets
+
+# 啟動生產服務器
+pnpm start
+
+# 代碼檢查
+pnpm run lint
+
+# Cloudflare Workers 本地開發
+pnpm run cf:dev
+
+# 部署到 Cloudflare Workers
+pnpm run deploy
 ```
 
 ## 📖 使用說明
@@ -115,15 +204,52 @@ npm start
 ```
 gyro-error-calculator/
 ├── app/                    # Next.js App Router
+│   ├── favicon.ico        # 網站圖標
 │   ├── globals.css        # 全局樣式
 │   ├── layout.tsx         # 根佈局
 │   └── page.tsx           # 主頁面
 ├── components/            # UI 元件
 │   └── ui/               # Shadcn UI 元件
-├── lib/                   # 工具函數
+│       ├── button.tsx    # 按鈕元件
+│       ├── calendar.tsx  # 日曆選擇器
+│       ├── card.tsx      # 卡片元件
+│       ├── input.tsx     # 輸入框元件
+│       ├── label.tsx     # 標籤元件
+│       ├── select.tsx    # 下拉選擇元件
+│       └── tooltip.tsx   # 提示框元件
+├── lib/                   # 工具函數和核心邏輯
+│   ├── calculations.ts   # 電羅經差計算核心邏輯
+│   └── utils.ts         # 通用工具函數
 ├── public/               # 靜態資源
-└── package.json          # 依賴配置
+│   ├── file.svg         # SVG 圖標
+│   ├── globe.svg        # 地球圖標
+│   ├── next.svg         # Next.js 圖標
+│   ├── vercel.svg       # Vercel 圖標
+│   └── window.svg       # 視窗圖標
+├── scripts/              # 構建腳本
+│   └── organize-assets.js # Cloudflare Workers 資產組織腳本
+├── src/                  # Cloudflare Workers
+│   └── worker.ts        # Workers 入口點
+├── .gitignore           # Git 忽略文件
+├── components.json      # Shadcn UI 配置
+├── eslint.config.mjs    # ESLint 配置
+├── next.config.ts       # Next.js 配置
+├── package.json         # 依賴配置
+├── pnpm-lock.yaml       # pnpm 鎖定文件
+├── postcss.config.mjs   # PostCSS 配置
+├── README.md            # 專案說明文件
+├── tsconfig.json        # TypeScript 配置
+└── wrangler.toml        # Cloudflare Workers 配置
 ```
+
+### 核心文件說明
+
+- **`lib/calculations.ts`**: 包含電羅經差計算的核心算法
+- **`app/page.tsx`**: 主要的用戶界面和交互邏輯
+- **`components/ui/`**: 基於 Shadcn UI 的可重用 UI 元件
+- **`wrangler.toml`**: Cloudflare Workers 部署配置
+- **`next.config.ts`**: Next.js 配置，支援靜態導出和 Cloudflare Workers
+- **`scripts/organize-assets.js`**: 構建時組織資產文件的腳本
 
 ## 📄 授權
 
@@ -137,4 +263,4 @@ MIT License
 
 **開發者**: 航海電羅經差計算器團隊  
 **版本**: 1.0.0  
-**更新日期**: 2025年1月
+**更新日期**: 2025年8月
