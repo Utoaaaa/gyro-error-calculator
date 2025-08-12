@@ -9,7 +9,7 @@ import {
   AzimuthZn,
   Degrees,
   HourAngle
-} from "../../packages/core-astro";
+} from "../../../packages/core-astro";
 
 /**
  * 主要計算函數
