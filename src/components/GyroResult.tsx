@@ -54,19 +54,19 @@ export function GyroResult(props: GyroResultProps) {
                 <span className="font-mono">{trueAzimuth}</span>
               </div>
               <div className="flex justify-between p-3 bg-gray-50 rounded">
-                <Label className="font-medium">太陽地方時角 (LHA):</Label>
-                <span className="font-mono">{calculatedT}</span>
+                <Label className="font-medium">太陽方位角 (Az):</Label>
+                <span className="font-mono">{azimuth}</span>
               </div>
               <div className="flex justify-between p-3 bg-gray-50 rounded">
                 <Label className="font-medium">太陽高度角 (Hc):</Label>
                 <span className="font-mono">{altitude}</span>
               </div>
               <div className="flex justify-between p-3 bg-gray-50 rounded">
-                <Label className="font-medium">方位角 (Az):</Label>
-                <span className="font-mono">{azimuth}</span>
+                <Label className="font-medium">太陽地方時角 (LHA):</Label>
+                <span className="font-mono">{calculatedT}</span>
               </div>
               <div className="flex justify-between p-3 bg-gray-50 rounded">
-                <Label className="font-medium">太陽GHA:</Label>
+                <Label className="font-medium">太陽格林威治時角（GHA）:</Label>
                 <span className="font-mono">{ghaTotal}</span>
               </div>
               <div className="flex justify-between p-3 bg-gray-50 rounded">
