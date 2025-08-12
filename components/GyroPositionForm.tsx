@@ -39,8 +39,47 @@ export function GyroPositionForm(props: GyroPositionFormProps) {
     setGyroAzimuth,
   } = props;
 
+  // 取得當前經緯度並填入
+  function handleUseCurrentLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        // 轉換為度分格式
+        const latAbs = Math.abs(lat);
+        const latDeg = Math.floor(latAbs);
+        const latMin = ((latAbs - latDeg) * 60).toFixed(3);
+        const latDir = lat >= 0 ? 'N' : 'S';
+
+        const lonAbs = Math.abs(lon);
+        const lonDeg = Math.floor(lonAbs);
+        const lonMin = ((lonAbs - lonDeg) * 60).toFixed(3);
+        const lonDir = lon >= 0 ? 'E' : 'W';
+
+        setLatDegrees(latDeg.toString());
+        setLatMinutes(latMin.toString());
+        setLatDirection(latDir as 'N' | 'S');
+        setLonDegrees(lonDeg.toString());
+        setLonMinutes(lonMin.toString());
+        setLonDirection(lonDir as 'E' | 'W');
+      });
+    } else {
+      alert("瀏覽器不支援定位功能");
+    }
+  }
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 p-4 border rounded-lg bg-gray-50">
+      <div className="flex justify-end mb-2">
+        <button
+          type="button"
+          className="text-xs px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+          onClick={handleUseCurrentLocation}
+        >
+          使用當前位置
+        </button>
+      </div>
       <div className="grid md:grid-cols-2 gap-4">
         <div>
           <Label className="text-base font-medium">緯度 (Latitude)</Label>

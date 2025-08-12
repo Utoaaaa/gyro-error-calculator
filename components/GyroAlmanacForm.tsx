@@ -19,6 +19,8 @@ interface GyroAlmanacFormProps {
   setDecMinutes: (value: string) => void;
   decDirection: 'N' | 'S';
   setDecDirection: (value: 'N' | 'S') => void;
+  decCorrection: string;
+  setDecCorrection: (value: string) => void;
 }
 
 export function GyroAlmanacForm(props: GyroAlmanacFormProps) {
@@ -37,16 +39,18 @@ export function GyroAlmanacForm(props: GyroAlmanacFormProps) {
     setDecMinutes,
     decDirection,
     setDecDirection,
+    decCorrection,
+    setDecCorrection,
   } = props;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 p-4 border rounded-lg bg-gray-50">
       <div>
         <Label className="text-base font-medium">格林威治時角 (GHA) - 航海曆查詢</Label>
         <div className="space-y-3 mt-2">
           {/* 小時部分 */}
           <div>
-            <Label className="text-sm text-gray-600 block mb-1">小時部分</Label>
+            <Label className="text-sm text-gray-600 block mb-1">太陽整點GHA</Label>
             <div className="flex gap-2">
               <div className="flex-1">
                 <Label className="text-xs text-gray-500">度 (°)</Label>
@@ -72,7 +76,7 @@ export function GyroAlmanacForm(props: GyroAlmanacFormProps) {
           </div>
           {/* 分秒部分 */}
           <div>
-            <Label className="text-sm text-gray-600 block mb-1">分秒部分</Label>
+            <Label className="text-sm text-gray-600 block mb-1">分秒增量</Label>
             <div className="flex gap-2">
               <div className="flex-1">
                 <Label className="text-xs text-gray-500">度 (°)</Label>
@@ -98,7 +102,7 @@ export function GyroAlmanacForm(props: GyroAlmanacFormProps) {
           </div>
         </div>
         <div className="text-xs text-gray-500 mt-1">
-          從航海曆查詢 GHA 值：小時部分+ 分秒部分
+          從航海曆查詢 GHA 值：小時部分+ 分秒增量
         </div>
       </div>
       <div>
@@ -125,9 +129,14 @@ export function GyroAlmanacForm(props: GyroAlmanacFormProps) {
               <SelectItem value="S">南 (S)</SelectItem>
             </SelectContent>
           </Select>
-        </div>
-        <div className="text-xs text-gray-500 mt-1">
-          從航海曆查詢太陽赤緯值
+          <Input
+            placeholder="赤緯增量修正"
+            value={decCorrection === "" ? undefined : decCorrection}
+            onChange={(e) => setDecCorrection(e.target.value)}
+            className="flex-1 min-w-0"
+            type="number"
+            min="0"
+          />
         </div>
       </div>
     </div>

@@ -45,16 +45,16 @@ export function GyroResult(props: GyroResultProps) {
             </div>
           </div>
 
-          {/* 計算過程備查 */}
+          {/* 相關計算 */}
           <div>
-            <Label className="text-base font-medium mb-4 block">計算過程備查</Label>
+            <Label className="text-base font-medium mb-4 block">相關計算</Label>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="flex justify-between p-3 bg-gray-50 rounded">
                 <Label className="font-medium">太陽真實方位 (Zn):</Label>
                 <span className="font-mono">{trueAzimuth}</span>
               </div>
               <div className="flex justify-between p-3 bg-gray-50 rounded">
-                <Label className="font-medium">船至太陽角度 (t):</Label>
+                <Label className="font-medium">太陽地方時角 (LHA):</Label>
                 <span className="font-mono">{calculatedT}</span>
               </div>
               <div className="flex justify-between p-3 bg-gray-50 rounded">
@@ -66,11 +66,11 @@ export function GyroResult(props: GyroResultProps) {
                 <span className="font-mono">{azimuth}</span>
               </div>
               <div className="flex justify-between p-3 bg-gray-50 rounded">
-                <Label className="font-medium">GHA:</Label>
+                <Label className="font-medium">太陽GHA:</Label>
                 <span className="font-mono">{ghaTotal}</span>
               </div>
               <div className="flex justify-between p-3 bg-gray-50 rounded">
-                <Label className="font-medium">DEC:</Label>
+                <Label className="font-medium">太陽赤緯（DEC）:</Label>
                 <span className="font-mono">{decTotal}</span>
               </div>
             </div>

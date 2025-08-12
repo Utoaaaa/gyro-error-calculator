@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { Card, CardFooter, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { GyroPositionForm } from "@/components/GyroPositionForm";
 import { GyroAlmanacForm } from "@/components/GyroAlmanacForm";
+import { TimeInputForm } from "@/components/TimeInputForm";
 import { GyroResult } from "@/components/GyroResult";
 import { GyroActions } from "@/components/GyroActions";
 
@@ -28,6 +30,19 @@ export default function GyroCalculatorPage() {
     handleCalculate, handleReset, loadExampleData
   } = useGyroCalculator();
 
+  // 新增resetTrigger狀態
+  const [resetTrigger, setResetTrigger] = useState(0);
+
+  // 新增赤緯修正狀態
+  const [decCorrection, setDecCorrection] = useState("");
+
+  // 包裝原本的handleReset
+  const handleResetAll = () => {
+    handleReset();
+    setResetTrigger((v) => v + 1);
+    setDecCorrection("");
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
       <div className="max-w-4xl mx-auto space-y-6">
@@ -44,6 +59,14 @@ export default function GyroCalculatorPage() {
           </CardHeader>
           <CardContent>
             <div className="grid gap-6">
+              <TimeInputForm
+                onTimeChange={(timeData) => {
+                  console.log('時間資料更新:', timeData);
+                  // 可以在這裡處理時間資料
+                }}
+                resetTrigger={resetTrigger}
+              />
+
               <GyroPositionForm
                 latDegrees={latDegrees}
                 setLatDegrees={setLatDegrees}
@@ -76,13 +99,15 @@ export default function GyroCalculatorPage() {
                 setDecMinutes={setDecMinutes}
                 decDirection={decDirection}
                 setDecDirection={setDecDirection}
+                decCorrection={decCorrection}
+                setDecCorrection={setDecCorrection}
               />
             </div>
           </CardContent>
           <CardFooter className="flex justify-center">
             <GyroActions
               onCalculate={handleCalculate}
-              onReset={handleReset}
+              onReset={handleResetAll}
               onLoadExample={loadExampleData}
             />
           </CardFooter>

@@ -25,6 +25,8 @@ export function useGyroCalculator() {
   const [decDegrees, setDecDegrees] = useState('');
   const [decMinutes, setDecMinutes] = useState('');
   const [decDirection, setDecDirection] = useState<'N' | 'S'>('N');
+  // 赤緯修正狀態
+  const [decCorrection, setDecCorrection] = useState('');
   
   // 結果狀態
   const [gyroError, setGyroError] = useState<string | null>(null);
@@ -56,10 +58,11 @@ export function useGyroCalculator() {
         ghaHours,
         ghaHoursMinutes,
         ghaMinutesSeconds,
-        ghaMsMinutes,
+        ghaMsMinutes: ghaMsMinutes === "" ? "0" : ghaMsMinutes,
         decDegrees,
         decMinutes,
         decDirection,
+        decCorrection: decCorrection === "" ? "0" : decCorrection,
         gyroAzimuth
       };
 
@@ -95,6 +98,7 @@ export function useGyroCalculator() {
     setDecDegrees('');
     setDecMinutes('');
     setDecDirection('N');
+    setDecCorrection('');
     setGyroAzimuth('');
     setGyroError(null);
     setAbsoluteError(0);
@@ -139,6 +143,7 @@ export function useGyroCalculator() {
     decDegrees, setDecDegrees,
     decMinutes, setDecMinutes,
     decDirection, setDecDirection,
+    decCorrection, setDecCorrection,
     gyroError, absoluteError, trueAzimuth, calculatedT, altitude, azimuth, ghaTotal, decTotal,
     handleCalculate, handleReset, loadExampleData
   };

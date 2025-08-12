@@ -151,6 +151,7 @@ export const performCalculation = (inputData: {
   decDegrees: string;
   decMinutes: string;
   decDirection: 'N' | 'S';
+  decCorrection?: string; // 赤緯修正（分），可選
   gyroAzimuth: string;
 }) => {
   // 轉換經緯度為十進制
@@ -167,7 +168,11 @@ export const performCalculation = (inputData: {
 
   // 轉換手動輸入的 DEC 為十進制度數
   const decValue = convertToDecimalDegrees(inputData.decDegrees, inputData.decMinutes, inputData.decDirection);
-  
+
+  // 加入赤緯修正 d corr（單位分），未填入則為 0
+  const decCorrection = parseFloat(inputData.decCorrection || '0') || 0;
+  const decTotalValue = decValue + decCorrection / 60;
+
   // 計算船至太陽的角度 t (地方時角 LHA)
   let t = ghaValue + lon;
   if (t < 0) t += 360;
@@ -175,7 +180,7 @@ export const performCalculation = (inputData: {
   if (t > 180) t = t - 360; // 轉換為 -180 到 +180 範圍
 
   // 使用指定公式計算太陽位置
-  const sunPosition = calculateSunPosition(lat, decValue, t);
+  const sunPosition = calculateSunPosition(lat, decTotalValue, t);
 
   // 計算電羅經差
   const gyroAz = parseFloat(inputData.gyroAzimuth);
@@ -190,6 +195,6 @@ export const performCalculation = (inputData: {
     azimuth: sunPosition.azimuthFormatted,
     znAngle: sunPosition.znAngle.toFixed(1) + '°',
     ghaTotal: ghaValue.toFixed(1) + '°',
-    decTotal: decValue.toFixed(1) + '°'
+    decTotal: decTotalValue.toFixed(1) + '°'
   };
 };
