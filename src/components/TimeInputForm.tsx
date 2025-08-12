@@ -229,12 +229,12 @@ export function TimeInputForm({ onTimeChange, resetTrigger }: TimeInputFormProps
 
         <div className="flex-1 min-w-0">
           <Label className="text-sm text-gray-600">減秒秒數</Label>
-          <Input
-            type="number"
-            value={reductionSeconds === "" ? undefined : reductionSeconds}
-            onChange={(e) => setReductionSeconds(e.target.value)}
-            placeholder="鐘錶誤差"
-          />
+<Input
+  type="number"
+  value={reductionSeconds ?? ""}
+  onChange={(e) => setReductionSeconds(e.target.value)}
+  placeholder="鐘錶誤差"
+/>
           <div className="text-xs text-gray-500 mt-1">
           </div>
         </div>
