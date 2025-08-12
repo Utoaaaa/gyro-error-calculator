@@ -48,9 +48,8 @@ export function GyroAlmanacForm(props: GyroAlmanacFormProps) {
       <div>
         <Label className="text-base font-medium">格林威治時角 (GHA) - 航海曆查詢</Label>
         <div className="space-y-3 mt-2">
-          {/* 小時部分 */}
           <div>
-            <Label className="text-sm text-gray-600 block mb-1">太陽整點GHA</Label>
+            <Label className="text-sm text-gray-600 block mb-1">太陽整點GHA + 分秒增量</Label>
             <div className="flex gap-2">
               <div className="flex-1">
                 <Label className="text-xs text-gray-500">度 (°)</Label>
@@ -72,14 +71,8 @@ export function GyroAlmanacForm(props: GyroAlmanacFormProps) {
                   onChange={(e) => setGhaHoursMinutes(e.target.value)}
                 />
               </div>
-            </div>
-          </div>
-          {/* 分秒部分 */}
-          <div>
-            <Label className="text-sm text-gray-600 block mb-1">分秒增量</Label>
-            <div className="flex gap-2">
               <div className="flex-1">
-                <Label className="text-xs text-gray-500">度 (°)</Label>
+                <Label className="text-xs text-gray-500">分秒度 (°)</Label>
                 <Input
                   type="number"
                   placeholder="30"
@@ -89,7 +82,7 @@ export function GyroAlmanacForm(props: GyroAlmanacFormProps) {
                 />
               </div>
               <div className="flex-1">
-                <Label className="text-xs text-gray-500">分</Label>
+                <Label className="text-xs text-gray-500">分秒分</Label>
                 <Input
                   type="number"
                   placeholder="25"
