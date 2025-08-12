@@ -35,7 +35,7 @@ const timezones = [
   { value: "+3", label: "ZD-3" },
   { value: "+2", label: "ZD-2" },
   { value: "+1", label: "ZD-1" },
-  { value: "+0", label: "ZD±0 (格林威治)" },
+  { value: "0", label: "ZD±0 (格林威治)" },
   { value: "-1", label: "ZD+1" },
   { value: "-2", label: "ZD+2" },
   { value: "-3", label: "ZD+3" },
@@ -53,7 +53,7 @@ const timezones = [
 export function TimeInputForm({ onTimeChange, resetTrigger }: TimeInputFormProps & { resetTrigger?: number }) {
   const [localDate, setLocalDate] = useState("");
   const [localTime, setLocalTime] = useState("");
-  const [timezone, setTimezone] = useState("+8");
+  const [timezone, setTimezone] = useState("0");
   const [utcDateTime, setUtcDateTime] = useState("");
   const [reductionSeconds, setReductionSeconds] = useState("");
   const [calculatedUtc, setCalculatedUtc] = useState("");
@@ -64,7 +64,7 @@ export function TimeInputForm({ onTimeChange, resetTrigger }: TimeInputFormProps
     if (resetTrigger !== undefined) {
       setLocalDate("");
       setLocalTime("");
-      setTimezone("+0");
+      setTimezone("0");
       setUtcDateTime("");
       setReductionSeconds("");
       setCalculatedUtc("");
@@ -75,7 +75,8 @@ export function TimeInputForm({ onTimeChange, resetTrigger }: TimeInputFormProps
   // 自動計算UTC時間
   useEffect(() => {
     if (localDate && localTime && timezone) {
-      setCalculatedUtc(getUtcFromLocal(localDate, localTime, timezone));
+      const newUtc = getUtcFromLocal(localDate, localTime, timezone);
+      setCalculatedUtc(newUtc);
     }
   }, [localDate, localTime, timezone]);
 
@@ -85,7 +86,7 @@ export function TimeInputForm({ onTimeChange, resetTrigger }: TimeInputFormProps
     if (utcDateTime) {
       setLocalDate("");
       setLocalTime("");
-      setTimezone("+8");
+      setTimezone("0");
       setCalculatedUtc("");
     }
     const finalUtc = utcDateTime || calculatedUtc;
@@ -112,11 +113,41 @@ export function TimeInputForm({ onTimeChange, resetTrigger }: TimeInputFormProps
   // 設置當前時間 (精確到秒)
   const setCurrentTime = () => {
     const now = new Date();
-    const localDateStr = now.toISOString().slice(0, 10);
-    const localTimeStr = now.toTimeString().slice(0, 8); // 包含秒數 HH:MM:SS
-    
+
+    // 取得本地日期與時間（這部分不變）
+    const localDateStr = now.getFullYear() + "-" +
+      String(now.getMonth() + 1).padStart(2, '0') + "-" +
+      String(now.getDate()).padStart(2, '0');
+    const localTimeStr = String(now.getHours()).padStart(2, '0') + ":" +
+      String(now.getMinutes()).padStart(2, '0') + ":" +
+      String(now.getSeconds()).padStart(2, '0');
+
     setLocalDate(localDateStr);
     setLocalTime(localTimeStr);
+
+    // --- 新增的邏輯：自動偵測並設定時區 ---
+    // 1. 取得瀏覽器時區偏移（分鐘），注意：它的正負號與常識相反
+    //    (例如，台灣 UTC+8，會返回 -480)
+    const browserOffsetMinutes = now.getTimezoneOffset();
+
+    // 2. 轉換為小時，並將符號反轉為我們習慣的形式 (UTC+8 -> 8)
+    const browserOffsetHours = - (browserOffsetMinutes / 60);
+
+    // 3. 格式化成與 timezones 陣列中 value 匹配的字串 (例如 8 -> "+8")
+    let timezoneValue = String(browserOffsetHours);
+    if (browserOffsetHours > 0) {
+      timezoneValue = "+" + timezoneValue;
+    }
+
+    // 4. 在我們的時區列表中尋找這個值
+    const foundTimezone = timezones.find(tz => tz.value === timezoneValue);
+
+    if (foundTimezone) {
+      // 5. 如果找到了，就更新 timezone 狀態
+      setTimezone(foundTimezone.value);
+    }
+    // 如果找不到（例如遇到 UTC+5.5 這種非整數時區），則保持原樣不變
+    // 在您的列表中都是整數時區，所以通常都能找到。
   };
 
   return (
@@ -175,7 +206,7 @@ export function TimeInputForm({ onTimeChange, resetTrigger }: TimeInputFormProps
         <div className="p-2 bg-blue-50 rounded">
           <Label className="text-sm text-blue-700">自動計算UTC時間</Label>
           <div className="text-sm font-mono text-blue-800">
-            {new Date(calculatedUtc).toISOString().replace('T', ' ').slice(0, 19)} UTC
+            {calculatedUtc.replace('T', ' ')} UTC
           </div>
         </div>
       )}
