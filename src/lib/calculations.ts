@@ -5,5 +5,5 @@ import {
   toDegrees,
   calculateSunPosition,
   calculateGyroError
-} from "../packages/core-astro";
+} from "../../packages/core-astro";
 export { performCalculation } from "../services/navigation";

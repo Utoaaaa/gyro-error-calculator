@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Card, CardFooter, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { GyroPositionForm } from "@/components/GyroPositionForm";
 import { GyroAlmanacForm } from "@/components/GyroAlmanacForm";
-import { GyroPositionAstronomyEngineForm } from "@/components/GyroPositionAstronomyEngineForm";
 import { TimeInputForm } from "@/components/TimeInputForm";
 import { GyroResult } from "@/components/GyroResult";
 import { GyroActions } from "@/components/GyroActions";

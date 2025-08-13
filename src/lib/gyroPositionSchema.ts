@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Latitude, Longitude } from "../packages/core-astro";
+import { Latitude, Longitude } from "../../packages/core-astro";
 
 /**
  * Zod schema for GyroPositionForm

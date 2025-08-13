@@ -17,13 +17,22 @@ describe('convertToDecimalDegrees', () => {
 
 describe('performCalculationWithAstronomyEngine', () => {
   it('可正確計算太陽 GHA/DEC', () => {
-    const inputData = {
+    const inputData: {
+      latDegrees: string;
+      latMinutes: string;
+      latDirection: "N" | "S";
+      lonDegrees: string;
+      lonMinutes: string;
+      lonDirection: "E" | "W";
+      utcIsoString: string;
+      gyroAzimuth: string;
+    } = {
       latDegrees: '31',
       latMinutes: '25',
-      latDirection: 'N' as 'N',
+      latDirection: 'N',
       lonDegrees: '132',
       lonMinutes: '3.1',
-      lonDirection: 'E' as 'E',
+      lonDirection: 'E',
       utcIsoString: '2025-08-13T00:00:00Z',
       gyroAzimuth: '276.5'
     };

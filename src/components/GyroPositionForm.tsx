@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { z } from "zod";
-import { Latitude, Longitude } from "@/packages/core-astro";
+import { Latitude, Longitude } from "../../packages/core-astro";
 
 /**
  * Zod schema for GyroPositionForm
