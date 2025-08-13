@@ -49,22 +49,20 @@ export function GyroAlmanacForm(props: GyroAlmanacFormProps) {
         <Label className="text-base font-medium">格林威治時角 (GHA) - 航海曆查詢</Label>
         <div className="space-y-3 mt-2">
           <div>
-            <Label className="text-sm text-gray-600 block mb-1">太陽整點GHA + 分秒增量</Label>
+            <Label className="text-sm text-gray-600">太陽整點GHA＋分秒增量</Label>
             <div className="flex gap-2">
               <div className="flex-1">
-                <Label className="text-xs text-gray-500">度 (°)</Label>
                 <Input
                   type="number"
-                  placeholder="15"
+                  placeholder="度"
                   value={ghaHours}
                   onChange={(e) => setGhaHours(e.target.value)}
                 />
               </div>
               <div className="flex-1">
-                <Label className="text-xs text-gray-500">分</Label>
                 <Input
                   type="number"
-                  placeholder="45"
+                  placeholder="分"
                   min="0"
                   max="59"
                   value={ghaHoursMinutes}
@@ -72,20 +70,18 @@ export function GyroAlmanacForm(props: GyroAlmanacFormProps) {
                 />
               </div>
               <div className="flex-1">
-                <Label className="text-xs text-gray-500">分秒度 (°)</Label>
                 <Input
                   type="number"
-                  placeholder="30"
+                  placeholder="分秒增量（度）"
                   step="0.1"
                   value={ghaMinutesSeconds}
                   onChange={(e) => setGhaMinutesSeconds(e.target.value)}
                 />
               </div>
               <div className="flex-1">
-                <Label className="text-xs text-gray-500">分秒分</Label>
                 <Input
                   type="number"
-                  placeholder="25"
+                  placeholder="分"
                   step="0.1"
                   value={ghaMsMinutes}
                   onChange={(e) => setGhaMsMinutes(e.target.value)}

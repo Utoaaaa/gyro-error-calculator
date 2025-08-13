@@ -50,12 +50,12 @@ const timezones = [
   { value: "-12", label: "ZD+12" }
 ];
 
-export function TimeInputForm({ onTimeChange, resetTrigger }: TimeInputFormProps & { resetTrigger?: number }) {
+export function TimeInputForm({ onTimeChange, resetTrigger, reductionSeconds, setReductionSeconds, utcDateTime, setUtcDateTime }: TimeInputFormProps & { resetTrigger?: number, reductionSeconds?: string, setReductionSeconds?: (v: string) => void, utcDateTime?: string, setUtcDateTime?: (v: string) => void }) {
   const [localDate, setLocalDate] = useState("");
   const [localTime, setLocalTime] = useState("");
   const [timezone, setTimezone] = useState("0");
-  const [utcDateTime, setUtcDateTime] = useState("");
-  const [reductionSeconds, setReductionSeconds] = useState("");
+  // 由父層傳入 utcDateTime, setUtcDateTime，無需本地 useState
+  // 由父層傳入 reductionSeconds, setReductionSeconds，無需本地 useState
   const [calculatedUtc, setCalculatedUtc] = useState("");
   const [ghaQueryTime, setGhaQueryTime] = useState("");
 
@@ -65,8 +65,8 @@ export function TimeInputForm({ onTimeChange, resetTrigger }: TimeInputFormProps
       setLocalDate("");
       setLocalTime("");
       setTimezone("0");
-      setUtcDateTime("");
-      setReductionSeconds("");
+      if (setUtcDateTime) setUtcDateTime("");
+      if (setReductionSeconds) setReductionSeconds("");
       setCalculatedUtc("");
       setGhaQueryTime("");
     }
@@ -214,12 +214,14 @@ export function TimeInputForm({ onTimeChange, resetTrigger }: TimeInputFormProps
       {/* UTC時間與減秒 - 同一行二等分 */}
       <div className="flex gap-3 w-full">
         <div className="flex-1 min-w-0">
-          <Label className="text-sm text-gray-600">UTC時間直接輸入 (可選)</Label>
+          <Label className="text-sm text-gray-600">UTC時間輸入 (可選)</Label>
           <Input
             type="datetime-local"
             step="1"
-            value={utcDateTime}
-            onChange={(e) => setUtcDateTime(e.target.value)}
+            value={typeof utcDateTime === "string" ? utcDateTime : utcDateTime ?? ""}
+            onChange={(e) => {
+              if (setUtcDateTime) setUtcDateTime(e.target.value);
+            }}
             placeholder="如果有直接的UTC時間可在此輸入"
           />
           <div className="text-xs text-gray-500 mt-1">
@@ -229,10 +231,12 @@ export function TimeInputForm({ onTimeChange, resetTrigger }: TimeInputFormProps
 
         <div className="flex-1 min-w-0">
           <Label className="text-sm text-gray-600">減秒秒數</Label>
-<Input
+        <Input
   type="number"
-  value={reductionSeconds ?? ""}
-  onChange={(e) => setReductionSeconds(e.target.value)}
+  value={typeof reductionSeconds === "string" ? reductionSeconds : reductionSeconds ?? ""}
+  onChange={(e) => {
+    if (setReductionSeconds) setReductionSeconds(e.target.value);
+  }}
   placeholder="鐘錶誤差"
 />
           <div className="text-xs text-gray-500 mt-1">

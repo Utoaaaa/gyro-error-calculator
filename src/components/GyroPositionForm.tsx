@@ -105,7 +105,8 @@ export function GyroPositionForm(props: GyroPositionFormProps) {
 
   return (
     <div className="space-y-4 p-4 border rounded-lg bg-gray-50">
-      <div className="flex justify-end mb-2">
+      <div className="flex justify-between items-center mb-2">
+        <Label className="text-base font-medium">位置設定</Label>
         <button
           type="button"
           className="text-xs px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"

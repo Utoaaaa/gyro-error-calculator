@@ -6,13 +6,36 @@ import {
   wrap360,
   wrap180,
   clampLat
-} from '../packages/core-astro';
+} from '../../packages/core-astro';
 import { GyroPositionFormSchema as FormSchema, parseGyroPositionForm as parseForm } from './gyroPositionSchema';
+import { performCalculationWithAstronomyEngine } from "../services/navigation/astronomyEngine";
 
 describe('convertToDecimalDegrees', () => {
   it('正確轉換北緯', () => {
     expect(convertToDecimalDegrees('10', '30', 'N')).toBeCloseTo(10.5);
   });
+
+describe('performCalculationWithAstronomyEngine', () => {
+  it('可正確計算太陽 GHA/DEC', () => {
+    const inputData = {
+      latDegrees: '31',
+      latMinutes: '25',
+      latDirection: 'N' as 'N',
+      lonDegrees: '132',
+      lonMinutes: '3.1',
+      lonDirection: 'E' as 'E',
+      utcIsoString: '2025-08-13T00:00:00Z',
+      gyroAzimuth: '276.5'
+    };
+    const result = performCalculationWithAstronomyEngine(inputData);
+    expect(result.ghaTotal).toMatch(/^\d+°\d+\.\d+'/);
+    expect(result.decTotal).toMatch(/^\d+°\d+\.\d+'/);
+    expect(typeof result.gyroError).toBe("string");
+    expect(typeof result.trueAzimuth).toBe("string");
+    expect(typeof result.altitude).toBe("string");
+    expect(typeof result.azimuth).toBe("string");
+  });
+});
 
   it('正確轉換南緯', () => {
     expect(convertToDecimalDegrees('10', '30', 'S')).toBeCloseTo(-10.5);
