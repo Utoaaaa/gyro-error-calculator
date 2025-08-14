@@ -5,6 +5,7 @@ import { Card, CardFooter, CardHeader, CardTitle, CardContent } from "@/componen
 import { GyroPositionForm } from "@/components/GyroPositionForm";
 import { GyroAlmanacForm } from "@/components/GyroAlmanacForm";
 import { TimeInputForm } from "@/components/TimeInputForm";
+import {AstronomyEngineTimeInputForm} from "@/components/AstronomyEngineTimeInputForm";
 import { GyroResult } from "@/components/GyroResult";
 import { GyroActions } from "@/components/GyroActions";
 import { useGyroCalculator } from "@/hooks/useGyroCalculator";
@@ -90,6 +91,10 @@ export default function GyroCalculatorPage() {
               {tab === 'almanac' ? (
                 <>
                   <TimeInputForm
+                    utcDateTime={astro.utcDateTime}
+                    setUtcDateTime={astro.setUtcDateTime}
+                    reductionSeconds={astro.reductionSeconds}
+                    setReductionSeconds={astro.setReductionSeconds}
                     onTimeChange={(timeData) => {
                       console.log('時間資料更新:', timeData);
                     }}
@@ -132,30 +137,16 @@ export default function GyroCalculatorPage() {
                 </>
               ) : (
                 <>
-                  <TimeInputForm
-                    onTimeChange={(timeData) => {
-                      let iso = "";
-                      if (timeData.utcDateTime) {
-                        iso = timeData.utcDateTime.endsWith("Z")
-                          ? timeData.utcDateTime
-                          : timeData.utcDateTime + "Z";
-                        astro.setUtcDateTime(timeData.utcDateTime);
-                      }
-                      astro.setUtcIsoString(iso);
-                      if (typeof timeData.reductionSeconds === "number") {
-                        astro.setReductionSeconds(timeData.reductionSeconds.toString());
-                      }
-                      if (timeData.ghaQueryHour !== undefined && timeData.ghaQueryMinute !== undefined && timeData.ghaQuerySecond !== undefined) {
-                        const pad = (n: number) => String(n).padStart(2, "0");
-                        const ghaQueryTime = `${iso.slice(0, 11)}${pad(timeData.ghaQueryHour)}:${pad(timeData.ghaQueryMinute)}:${pad(timeData.ghaQuerySecond)}Z`;
-                        astro.setGhaQueryTime(ghaQueryTime);
-                      }
-                    }}
-                    resetTrigger={0}
-                    reductionSeconds={astro.reductionSeconds}
-                    setReductionSeconds={astro.setReductionSeconds}
+                  <AstronomyEngineTimeInputForm
                     utcDateTime={astro.utcDateTime}
                     setUtcDateTime={astro.setUtcDateTime}
+                    reductionSeconds={astro.reductionSeconds}
+                    setReductionSeconds={astro.setReductionSeconds}
+                    onTimeChange={(timeData) => {
+                      // 修正：直接使用 AstronomyEngineTimeInputForm 的 ghaQueryTime 結果
+                      astro.setGhaQueryTime(timeData.ghaQueryTime ?? "");
+                    }}
+                    resetTrigger={resetTrigger}
                   />
                   <GyroPositionForm
                     latDegrees={astro.latDegrees}

@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useState, useEffect } from "react";
 import { getUtcFromLocal, getGhaQueryTime } from "@/lib/timeUtils";
 
-interface TimeInputFormProps {
+interface AstronomyEngineTimeInputFormProps {
   onTimeChange?: (data: TimeData) => void;
 }
 
@@ -19,6 +19,7 @@ interface TimeData {
   ghaQueryHour: number;
   ghaQueryMinute: number;
   ghaQuerySecond: number;
+  ghaQueryTime: string; // 新增
 }
 
 // 時區選項 (ZD格式)
@@ -50,7 +51,7 @@ const timezones = [
   { value: "-12", label: "ZD+12" }
 ];
 
-export function TimeInputForm({ onTimeChange, resetTrigger, reductionSeconds, setReductionSeconds, utcDateTime, setUtcDateTime }: TimeInputFormProps & { resetTrigger?: number, reductionSeconds?: string, setReductionSeconds?: (v: string) => void, utcDateTime?: string, setUtcDateTime?: (v: string) => void }) {
+export function AstronomyEngineTimeInputForm({ onTimeChange, resetTrigger, reductionSeconds, setReductionSeconds, utcDateTime, setUtcDateTime }: AstronomyEngineTimeInputFormProps & { resetTrigger?: number, reductionSeconds?: string, setReductionSeconds?: (v: string) => void, utcDateTime?: string, setUtcDateTime?: (v: string) => void }) {
   const [localDate, setLocalDate] = useState("");
   const [localTime, setLocalTime] = useState("");
   const [timezone, setTimezone] = useState("0");
@@ -106,7 +107,8 @@ export function TimeInputForm({ onTimeChange, resetTrigger, reductionSeconds, se
           reductionSeconds: reductionSecNum,
           ghaQueryHour: adjustedTime.getUTCHours(),
           ghaQueryMinute: adjustedTime.getUTCMinutes(),
-          ghaQuerySecond: adjustedTime.getUTCSeconds()
+          ghaQuerySecond: adjustedTime.getUTCSeconds(),
+          ghaQueryTime: getGhaQueryTime(finalUtc, reductionSecNum) // 新增
         });
       }
     }
@@ -155,6 +157,8 @@ export function TimeInputForm({ onTimeChange, resetTrigger, reductionSeconds, se
     if (setReductionSeconds && (!reductionSeconds || reductionSeconds === "")) {
       setReductionSeconds("0");
     }
+    // 新增：按下使用當前時間時自動清除 utcDateTime
+    if (setUtcDateTime) setUtcDateTime("");
   };
 
   return (
@@ -228,6 +232,10 @@ export function TimeInputForm({ onTimeChange, resetTrigger, reductionSeconds, se
             value={typeof utcDateTime === "string" ? utcDateTime : utcDateTime ?? ""}
             onChange={(e) => {
               if (setUtcDateTime) setUtcDateTime(e.target.value);
+              // 新增：輸入 utc 時自動清除當地時間
+              if (setLocalDate) setLocalDate("");
+              if (setLocalTime) setLocalTime("");
+              if (setTimezone) setTimezone("0");
             }}
             placeholder="如果有直接的UTC時間可在此輸入"
           />
